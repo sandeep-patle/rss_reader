@@ -1,0 +1,17 @@
+%h3 Latest Posts
+- unless @posts.blank?
+  %table.table.table-striped
+    %thead
+      %tr
+        %th Title
+        %th Published At
+    %tbody
+      - @posts.each do |post|
+        %tr
+          %td
+            = link_to "#{post.title}", "#{post.url}", target: "_blank"
+          %td= format_date(post.published)
+- else
+  %br
+  .alert.alert-info
+    %strong No feed URLS added.
