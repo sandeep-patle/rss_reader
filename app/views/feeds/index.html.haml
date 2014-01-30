@@ -1,0 +1,25 @@
+%h3 Feed URL
+- unless @feeds.blank?
+  %table.table.table-striped
+    %thead
+      %tr
+        %th Title
+        %th Feed URL
+        %th Actions
+    %tbody
+      - @feeds.each do |feed|
+        %tr
+          %td= "Title"
+          %td= feed.feed_url
+          %td
+            = link_to 'Edit', edit_feed_path(feed)
+            = link_to 'Show', feed, :class => 'btn btn-primary'
+            = link_to 'Back', feeds_path
+- else
+  %br
+  .alert.alert-info
+    = succeed "" do
+      %strong No feed URLS added.
+%p
+  %a{href: "#{new_feed_path}"}
+    %button.btn.btn-large.btn-warning{style: "margin-top: 30px"} Please attend this survey
