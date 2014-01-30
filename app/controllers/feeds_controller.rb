@@ -6,6 +6,7 @@ class FeedsController < ApplicationController
 
   # GET /feeds
   # GET /feeds.json
+  # Fetching Title automatically by using Feed URL
   def index
     feed_urls = Feed.all.collect(&:feed_url)
     @feeds = fetch_all_feeds(feed_urls)
@@ -16,7 +17,7 @@ class FeedsController < ApplicationController
     end
   end
 
-  # GET
+  # GET /show_all_posts
   # Show all latest posts of all feeds by order of published date
   def show_all_posts
     feed_urls = Feed.all.collect(&:feed_url)
@@ -24,17 +25,6 @@ class FeedsController < ApplicationController
     respond_to do |format|
       format.html
       format.json { render json: @feeds }
-    end
-  end
-
-  # GET /feeds/1
-  # GET /feeds/1.json
-  def show
-    @feed = Feed.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.json { render json: @feed }
     end
   end
 
