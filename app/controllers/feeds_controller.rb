@@ -22,7 +22,7 @@ class FeedsController < ApplicationController
     feed_urls = Feed.all.collect(&:feed_url)
     @posts = fetch_all_feeds_posts(feed_urls)
     respond_to do |format|
-      format.html # index.html.erb
+      format.html
       format.json { render json: @feeds }
     end
   end
@@ -62,7 +62,7 @@ class FeedsController < ApplicationController
     respond_to do |format|
       if is_valid_feed_url?(@feed.feed_url)
         @feed.save
-        format.html { redirect_to @feed, notice: 'Feed was successfully created.' }
+        format.html { redirect_to feeds_path, notice: 'Feed was successfully created.' }
         format.json { render json: @feed, status: :created, location: @feed }
       else
         flash.now[:notice] = "Invalid Feed URL"
@@ -81,7 +81,7 @@ class FeedsController < ApplicationController
     respond_to do |format|
       if is_valid_feed_url?(@feed.feed_url)
         @feed.update_attributes(params[:feed])
-        format.html { redirect_to @feed, notice: 'Feed was successfully updated.' }
+        format.html { redirect_to feeds_path, notice: 'Feed was successfully updated.' }
         format.json { head :no_content }
       else
         flash.now[:notice] = "Invalid Feed URL"
