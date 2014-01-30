@@ -1,3 +1,8 @@
+- if flash[:notice]
+  .alert.alert-error
+    %strong> Error!
+    = flash[:notice]
+
 = form_for(@feed) do |f|
   - if @feed.errors.any?
     #error_explanation
@@ -7,7 +12,7 @@
       %ul
         - @feed.errors.full_messages.each do |msg|
           %li= msg
-  = f.label :feed_url
+  = f.label :feed_url, 'Feed URL'
   = f.text_field :feed_url
   .actions
     = f.submit

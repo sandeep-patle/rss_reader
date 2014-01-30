@@ -1,13 +1,29 @@
+require 'feed_reader'
+
 class FeedsController < ApplicationController
+  # Include Feed Parser
+  include FeedReader
+
   # GET /feeds
   # GET /feeds.json
   def index
-    @feeds = Feed.all
+    feed_urls = Feed.all.collect(&:feed_url)
+    @feeds = fetch_all_feeds(feed_urls)
 
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @feeds }
-      format.rss { render :layout => false }
+    end
+  end
+
+  # GET
+  # Show all latest posts of all feeds by order of published date
+  def show_all_posts
+    feed_urls = Feed.all.collect(&:feed_url)
+    @posts = fetch_all_feeds_posts(feed_urls)
+    respond_to do |format|
+      format.html # index.html.erb
+      format.json { render json: @feeds }
     end
   end
 
@@ -40,14 +56,16 @@ class FeedsController < ApplicationController
 
   # POST /feeds
   # POST /feeds.json
+  # Before creating validating new Feed URL
   def create
     @feed = Feed.new(params[:feed])
-
     respond_to do |format|
-      if @feed.save
+      if is_valid_feed_url?(@feed.feed_url)
+        @feed.save
         format.html { redirect_to @feed, notice: 'Feed was successfully created.' }
         format.json { render json: @feed, status: :created, location: @feed }
       else
+        flash.now[:notice] = "Invalid Feed URL"
         format.html { render action: "new" }
         format.json { render json: @feed.errors, status: :unprocessable_entity }
       end
@@ -56,14 +74,17 @@ class FeedsController < ApplicationController
 
   # PUT /feeds/1
   # PUT /feeds/1.json
+  # Before update validating new Feed URL
   def update
     @feed = Feed.find(params[:id])
-
+    @feed.feed_url = params[:feed][:feed_url]
     respond_to do |format|
-      if @feed.update_attributes(params[:feed])
+      if is_valid_feed_url?(@feed.feed_url)
+        @feed.update_attributes(params[:feed])
         format.html { redirect_to @feed, notice: 'Feed was successfully updated.' }
         format.json { head :no_content }
       else
+        flash.now[:notice] = "Invalid Feed URL"
         format.html { render action: "edit" }
         format.json { render json: @feed.errors, status: :unprocessable_entity }
       end

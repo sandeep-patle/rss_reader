@@ -1,6 +1,6 @@
 RssReader::Application.routes.draw do
   resources :feeds
-
+  match 'show_all_posts', :to => 'feeds#show_all_posts'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

@@ -1,4 +1,4 @@
-%h3 Feed URL
+%h3 Feed URLS
 - unless @feeds.blank?
   %table.table.table-striped
     %thead
@@ -9,17 +9,16 @@
     %tbody
       - @feeds.each do |feed|
         %tr
-          %td= "Title"
+          %td= feed.title
           %td= feed.feed_url
           %td
-            = link_to 'Edit', edit_feed_path(feed)
-            = link_to 'Show', feed, :class => 'btn btn-primary'
-            = link_to 'Back', feeds_path
+            - feed_obj = feed_by_url(feed.feed_url)
+            = link_to 'Edit', edit_feed_path(feed_obj)
+            = link_to 'Delete', feed_path(feed_obj), :method => :delete
 - else
   %br
   .alert.alert-info
-    = succeed "" do
-      %strong No feed URLS added.
+    %strong No feed URLS added.
 %p
   %a{href: "#{new_feed_path}"}
-    %button.btn.btn-large.btn-warning{style: "margin-top: 30px"} Please attend this survey
+    %button.btn.btn-large.btn-warning{style: "margin-top: 30px"} Add Feed URL
