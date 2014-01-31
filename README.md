@@ -9,7 +9,7 @@ A reader page – fetch latest posts from all feeds and combine them together. S
 display. Display title only. Clicking on title will open original article page in new tab.
 
 By default we are fetching latest 10 posts of each feed. You can customize it by passing second parameter in following RSS reader function-
-fetch_all_feeds_posts(feed_urls, entries_counter = 10)
+fetch_all_feeds_posts(feed_urls, entries_counter)
 
 Feedzirra
 --------------
@@ -20,9 +20,10 @@ Development Tools
 ---------------
 Ruby 1.9.2
 Rails 3.2.11
-Mysql
+Mysql5
 
-You can use sample feed URLs
+Sample feed URLs
 -----------------------------
-"http://feeds.feedburner.com/PaulDixExplainsNothing", "http://feeds.feedburner.com/trottercashion"
+"http://feeds.feedburner.com/PaulDixExplainsNothing"
+"http://feeds.feedburner.com/trottercashion"
 

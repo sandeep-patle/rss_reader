@@ -126,7 +126,6 @@ describe FeedsController do
 
     it 'should return an array of post' do
       get :show_all_posts
-
       assigns(:posts).should be_a(Array)
     end
   end

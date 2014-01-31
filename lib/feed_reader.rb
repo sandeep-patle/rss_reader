@@ -22,7 +22,7 @@ module FeedReader
     feed_collections.values
   end
 
-  # Sorting posts by updated in descending order
+  # Sorting posts by published date in descending order
   def sort_by_date(posts)
     posts.sort { |p1, p2| p2.published <=> p1.published }
   end

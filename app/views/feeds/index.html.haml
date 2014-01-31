@@ -1,8 +1,8 @@
 - unless flash[:notice].blank?
   .alert.alert-success
     %a.close{"data-dismiss" => "alert"} ×
-    %strong> Success!
-    = flash[:notice]
+    %strong= "Success! #{flash[:notice]}"
+
 %h3 Feed URLS
 - unless @feeds.blank?
   %table.table.table-striped

@@ -22,6 +22,7 @@ class FeedsController < ApplicationController
   def show_all_posts
     feed_urls = Feed.all.collect(&:feed_url)
     @posts = fetch_all_feeds_posts(feed_urls)
+
     respond_to do |format|
       format.html
       format.json { render json: @feeds }
@@ -49,13 +50,14 @@ class FeedsController < ApplicationController
   # Before creating validating new Feed URL
   def create
     @feed = Feed.new(params[:feed])
+
     respond_to do |format|
-      if is_valid_feed_url?(@feed.feed_url)
+      if @feed.valid? && is_valid_feed_url?(@feed.feed_url)
         @feed.save
         format.html { redirect_to feeds_path, notice: 'Feed was successfully created.' }
         format.json { render json: @feed, status: :created, location: @feed }
       else
-        flash.now[:notice] = "Invalid Feed URL"
+        flash.now[:error] = "Invalid Feed URL"
         format.html { render action: "new" }
         format.json { render json: @feed.errors, status: :unprocessable_entity }
       end
@@ -68,13 +70,14 @@ class FeedsController < ApplicationController
   def update
     @feed = Feed.find(params[:id])
     @feed.feed_url = params[:feed][:feed_url]
+
     respond_to do |format|
-      if is_valid_feed_url?(@feed.feed_url)
+      if @feed.valid? && is_valid_feed_url?(@feed.feed_url)
         @feed.update_attributes(params[:feed])
         format.html { redirect_to feeds_path, notice: 'Feed was successfully updated.' }
         format.json { head :no_content }
       else
-        flash.now[:notice] = "Invalid Feed URL"
+        flash.now[:error] = "Invalid Feed URL"
         format.html { render action: "edit" }
         format.json { render json: @feed.errors, status: :unprocessable_entity }
       end
